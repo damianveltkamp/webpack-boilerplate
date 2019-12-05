@@ -2,6 +2,7 @@ $black: teal;
 
 body {
   background: $black;
+  user-select: none;
 }
 foo {
   background: red;

@@ -3,6 +3,8 @@ const path = require('path');
 const common = require('./webpack.config')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const autoprefixer = require('autoprefixer')
+const webpack = require('webpack')
 
 const parsePath = path.parse(__filename);
 module.exports = merge(common,{
@@ -14,13 +16,25 @@ module.exports = merge(common,{
     plugins: [
         new HtmlWebpackPlugin({
             template: parsePath.dir + '/src/index.html'
+        }),
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                postcss: [
+                    autoprefixer()
+                ]
+            }
         })
     ],
     module: {
       rules: [
           {
               test: /\.scss$/,
-              use: [ 'style-loader', 'css-loader?sourceMap', 'sass-loader' ]
+              use: [
+                  'style-loader',
+                  'css-loader?sourceMap',
+                  'postcss-loader',
+                  'sass-loader'
+              ]
           }
       ]
     },
