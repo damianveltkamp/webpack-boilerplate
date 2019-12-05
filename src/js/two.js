@@ -1,1 +1,1 @@
-console.log('Hello script 1');
+console.log('Hello script 2');

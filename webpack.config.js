@@ -1,48 +1,31 @@
 const webpack = require('webpack');
 const htmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer')
 const path = require('path');
 
 const parsePath = path.parse(__filename);
 module.exports = {
-    // Webpack config goes here
     devtool: 'eval',
-    entry: './src/index.js',
-    output: {
-        filename: 'bundle.js',
-        path: parsePath.dir + '/dist'
+    entry: {
+        main: './src/index.js',
+        vendor: './src/vendor.js'
     },
-    plugins: [
-        new htmlWebpackPlugin({
-            template: parsePath.dir + '/src/index.html'
-        })
-    ],
     module: {
         rules: [
             {
-                test: /\.css$/,
-                use: [ 'style-loader', 'css-loader?sourceMap' ]
-            },
-            {
-                test: /\.jpg$/,
-                use: [ 'url-loader' ]
-            },
-            {
-                test: /\.jpeg$/,
-                use: ['url-loader']
-            },
-            {
-                test: /\.png$/,
-                use: [ 'url-loader' ]
+                test: /\.(svg|png|jpg|gif|jpeg)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[hash].[ext]',
+                        outputPath: 'images'
+                    }
+                }
             },
             {
                 test: /\.html$/,
                 use: [ 'html-loader' ]
             }
         ]
-    },
-    devServer: {
-        contentBase: 'dist',
-        port: 9000,
-        watchContentBase: true
     }
 }
